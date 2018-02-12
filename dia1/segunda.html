@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Segundo ejercicio</title>
+
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+</head>
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<button class="btn btn-primary" id="btnMostrarOcultar">Mostrar</button>
+			<button class="btn btn-success" id="btnAgregarParrafo">Agregar Parrafo</button>
+		</div>
+		<div class="row contenedor-parrafos">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+	</div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	
+
+	<script>
+		
+		/*
+		
+			Selectores:
+
+			ID: #id_del_elemento
+			Clase: .clase_del_elemento
+			Etiqueta: Busca cualquier etiqueta ej.   div --> Busca todas las etiquetas div en el documento
+
+		
+
+
+			console.log('Seleccion hecha con jQuery ',  $('#btnMostrarOcultar') );
+			console.log('Seleccion hecha con JS ', document.getElementById('btnMostrarOcultar')  );
+
+		
+
+
+		$('#btnMostrarOcultar').on('click', mostrarOcultarParrafo);
+		function mostrarOcultarParrafo(){
+			$('p').slideToggle(); //Oculta o muestra el contenido del elemento del selector
+			//slideDown: Muestra el elemento
+			//slideUp: Oculta el elemento
+			//Otros metodos: fadeIn/Out hide show
+		}
+
+
+		$('#btnMostrarOcultar').on('click', function(){  //Funciones anonimas
+			$('p').slideToggle();
+		});
+
+		
+
+		var mostrarOcultarParrafo = function(){
+			$('p').slideToggle();
+		};
+		$('#btnMostrarOcultar').on('click', mostrarOcultarParrafo);
+
+		*/
+
+
+		$('#btnMostrarOcultar').on('click', ()=>{  //Funcion Flecha: hace parte de ECMA6
+			$('p').slideToggle();	
+		});
+
+
+		$('#btnAgregarParrafo').on('click', function(){
+			var nuevoParrafo = $('<p>');  //Construye un elemento Parrafo
+			nuevoParrafo.text('Nuevo parrafo por codigo');
+			$('.contenedor-parrafos').append(nuevoParrafo); //append, agrega un nuevo elemento al contenedor
+		});
+
+
+	</script>
+
+</body>
+</html>
