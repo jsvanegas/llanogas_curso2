@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Ejercicio 2</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="container-fluid">
+
+        <div class="container">
+            <h1 class="text-center">Ejemplo</h1>
+        </div>
+
+        <div class="row mx-auto" id="div-contenedor">
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="div-plantilla" class="card mr-2" style="width: 30%;margin-bottom: 10px;" hidden>
+    <div class="card-body">
+        <h5 class="card-title">Titulo de la tarjeta</h5>
+        <p class="card-text">Color de la tarjeta: <span class="color-tarjeta"></span></p>
+        <a href="#" class="btn btn-danger">Borrar</a>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+<script>
+
+    var plantilla = $('#div-plantilla');
+    var contenedor = $('#div-contenedor');
+
+    for (var i = 0; i < 100; i++) {
+        agregarTarjeta();
+    }
+
+    function agregarTarjeta(){
+        var item = plantilla.clone(); //clona el objeto base
+        item.removeAttr('id'); //remueve el ID para que este no se repita
+        item.removeAttr('hidden'); //se remueve el atributo hidden para que el nuevo elemento sea visible en la interfaz
+        var color = '#'+obtenerColor();
+        item.css('background-color', color);
+        item.find('span.color-tarjeta').text(color);
+        item.find('.btn').on('click', removerTarjeta); //Se asigna el evento clic a cada boton
+        contenedor.append(item);
+    }
+
+    function removerTarjeta(e) {
+        var btn = $(this); //Esto hace referencia al botón que disparó la función
+        //El método parent, busca el elemento contenedor del item indicado, en este caso del botón
+        //Estos métodos se pueden invocar en cadena, hasta llegar al elemento más grande
+        //remove, elimina el objeto del árbol DOM.
+        btn.parent().parent().remove();
+    }
+
+    function obtenerColor(){
+        var r = (Math.round(Math.random()* 127) + 127).toString(16);
+        var g = (Math.round(Math.random()* 127) + 127).toString(16);
+        var b = (Math.round(Math.random()* 127) + 127).toString(16);
+        return '' + r + g + b;
+    }
+
+</script>
+
+
+
+</body>
+</html>
