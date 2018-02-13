@@ -1,0 +1,18 @@
+
+//Función para obtener un color 'pastel' de forma aleatoria
+function obtenerColor(){
+    var r = (Math.round(Math.random()* 127) + 127).toString(16);
+    var g = (Math.round(Math.random()* 127) + 127).toString(16);
+    var b = (Math.round(Math.random()* 127) + 127).toString(16);
+    return '' + r + g + b;
+}
+
+
+//Ejemplo de Tarjeta en HTML con Bootstrap 4
+<div id="div-plantilla" class="card m-l-md" style="width: 30%;margin-bottom: 10px;" hidden>
+  <div class="card-body">
+    <h5 class="card-title">Titulo de la tarjeta</h5>
+    <p class="card-text">Color de la tarjeta: <span class="color-tarjeta"></span></p>
+    <a href="#" class="btn btn-danger">Borrar</a>
+  </div>
+</div>
