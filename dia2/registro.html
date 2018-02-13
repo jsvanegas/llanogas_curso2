@@ -15,7 +15,6 @@
             margin-top:32px;
         }
     </style>
-    <link rel="stylesheet" href="css/fontawesome.min.css">
 </head>
 <body class="bg-ligth">
 
@@ -29,12 +28,14 @@
         </div>
     </div>
 
-    <div class="container border-top pt-4">
+    <div id="formulario" class="container border-top pt-4">
         <div class="row">
+
             <div class="form-group col-md-4">
                 <label for="txtNombre">Nombre:</label>
                 <input type="text" class="form-control" id="txtNombre" required>
             </div>
+
             <div class="form-group col-md-4">
                 <label for="txtApellido">Apellidos:</label>
                 <input type="text" class="form-control" id="txtApellido" required>
@@ -46,19 +47,21 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="txtCelular">Celular:</label>
-                <input type="text" class="form-control" id="txtCelular" required>
+                <input type="text" class="form-control" id="txtCelular">
             </div>
             <div class="form-group col-md-4">
                 <label for="txtTelefono">Teléfono:</label>
-                <input type="text" class="form-control" id="txtTelefono" required>
+                <input type="text" class="form-control" id="txtTelefono">
             </div>
 
             <div class="form-group col-md-4">
                 <label class="d-block">Género</label>
+
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="rbtnMasculino" name="rbtn-genero" class="custom-control-input">
                     <label class="custom-control-label" for="rbtnMasculino">Masculino</label>
                 </div>
+
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="rbtnFemenino" name="rbtn-genero" class="custom-control-input">
                     <label class="custom-control-label" for="rbtnFemenino">Femenino</label>
@@ -68,7 +71,7 @@
 
             <div class="form-group col-md-4">
                 <label for="cmbTipoDocumento">Tipo de Documento:</label>
-                <select id="cmbTipoDocumento" class="form-control"></select>
+                <select id="cmbTipoDocumento" class="form-control" required></select>
             </div>
 
 
@@ -79,7 +82,7 @@
 
             <div class="form-group col-md-4">
                 <label for="cmbNacionalidad">Nacionalidad:</label>
-                <select id="cmbNacionalidad" class="form-control"></select>
+                <select id="cmbNacionalidad" class="form-control" required></select>
             </div>
 
             <div class="form-group col-md-12">
@@ -88,8 +91,8 @@
             </div>
 
             <div class="form-group col-md-12 text-right">
-                <button class="btn btn-success btn-enlinea"><i class="fas fa-save"></i> Guardar</button>
-                <button class="btn btn-danger btn-enlinea"><i class="fas fa-times"></i> Limpiar</button>
+                <button id="btnGuardar" class="btn btn-success btn-enlinea"><i class="fas fa-save"></i> Guardar</button>
+                <button id="btnLimpiar" class="btn btn-danger btn-enlinea"><i class="fas fa-times"></i> Limpiar</button>
             </div>
 
         </div>
@@ -101,6 +104,107 @@
 
 <script>
 
+    //JSON - JavaScript Object Notation
+    var tiposDocumento = [
+        { valor:'CC', nombre:'Cédula de Ciudadanía' },
+        { valor:'TI', nombre:'Tarjeta de Identidad' },
+        { valor:'NIT', nombre:'NIT' },
+        { valor:'CE', nombre:'Cédula de Extranjería' }
+    ];
+
+    var paises = [
+        { valor:'CO', nombre:'Colombia' },
+        { valor:'PE', nombre:'Perú' },
+        { valor:'VE', nombre:'Venezuela' },
+        { valor:'EC', nombre:'Ecuador' },
+        { valor:'ME', nombre:'México' }
+    ];
+
+    function init(){
+        cargarComboTiposDocumento();
+        cargarComboPaises();
+        $('#btnGuardar').on('click', function(){
+            validarFormulario( $('#formulario') );
+        });
+    }
+
+    function validarFormulario(contenedor){
+        var requeridos = contenedor.find('*[required]');
+        var r = null;
+        var mensaje = '';
+        for (var i = 0; i<requeridos.length; i++){
+            var elemento = requeridos[i];
+            var elementoJQuery = $(elemento);
+            switch (elemento.tagName){
+                case 'INPUT':
+                    resultado = validarInput(elementoJQuery);
+                    mensaje += !resultado ? 'El campo <b>'+obtenerLabel(elementoJQuery)+'</b> está vacío. <br/>':'';
+                    break;
+                case 'SELECT':
+                    resultado = validarSelect(elementoJQuery);
+                    mensaje += !resultado ? 'Debe seleccionar una opción de '+obtenerLabel(elementoJQuery)+'<br/>':'';
+                    break;
+            }
+        }
+        if (mensaje.length > 0){
+            console.error(mensaje);
+            return;
+        }
+        console.info('Todo OK');
+        return;
+    }
+
+    function obtenerLabel(elemento) {
+        var txtLabel = elemento.parent().find('label[for="'+elemento.attr('id')+'"]').text();
+        return txtLabel.substring(0, txtLabel.length-1);
+    }
+
+    function validarInput(elemento){
+        if (elemento.val().trim().length === 0){
+            elemento.addClass('is-invalid').removeClass('is-valid');
+            return false;
+        }
+        elemento.removeClass('is-invalid').addClass('is-valid');
+        return true;
+    }
+
+    function validarSelect(elemento){
+        if (elemento.val() === '-1'){
+            elemento.addClass('is-invalid').removeClass('is-valid');
+            return false;
+        }
+        elemento.removeClass('is-invalid').addClass('is-valid');
+        return true;
+    }
+
+    function cargarComboTiposDocumento(){
+        var cmbTipoDocumento = $('#cmbTipoDocumento').empty(); //el metodo empty borra los elementos internos del objeto
+        llenarCombo(cmbTipoDocumento, tiposDocumento, 'valor', 'nombre');
+    }
+    
+    function cargarComboPaises() {
+        var cmbNacionalidad = $('#cmbNacionalidad');
+        llenarCombo(cmbNacionalidad, paises, 'valor', 'nombre');
+    }
+
+    function llenarCombo(combo, datos, valor, texto){
+        combo.empty();
+        combo.append( $('<option>').text('Seleccione una opción').val(-1) );
+        for (var i = 0; i<datos.length; i++){
+            var item = datos[i];
+            var option = $('<option>'); //se crea un objeto option
+            option.val(item[valor]);
+            option.text(item[texto]);
+            combo.append(option);
+        }
+    }
+
+
+    init(); //Se inicia la ejecución del programa
+
 </script>
+
+
+
 </body>
 </html>
