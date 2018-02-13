@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Formulario de Registro</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+
+    <style>
+        .btn-enlinea{
+            position: relative;
+            margin-top:32px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+</head>
+<body class="bg-ligth">
+
+
+<div class="container-fluid">
+    <div class="container text-center mt-5 pb-2">
+        <h1 class="mt-4 mb-4 text-center">Registro de Usuarios</h1>
+        <div class="container mb-2 text-right">
+            <a href="consulta.html" class="mr-3"><i class="fas fa-address-book"></i> Consultar Usuarios</a> |
+            <a href="index.html" class="ml-3"><i class="fas fa-home"></i> Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="container border-top pt-4">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="txtNombre">Nombre:</label>
+                <input type="text" class="form-control" id="txtNombre" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtApellido">Apellidos:</label>
+                <input type="text" class="form-control" id="txtApellido" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtCorreo">Correo:</label>
+                <input type="email" class="form-control" id="txtCorreo"
+                       pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtCelular">Celular:</label>
+                <input type="text" class="form-control" id="txtCelular" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtTelefono">Teléfono:</label>
+                <input type="text" class="form-control" id="txtTelefono" required>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label class="d-block">Género</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="rbtnMasculino" name="rbtn-genero" class="custom-control-input">
+                    <label class="custom-control-label" for="rbtnMasculino">Masculino</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="rbtnFemenino" name="rbtn-genero" class="custom-control-input">
+                    <label class="custom-control-label" for="rbtnFemenino">Femenino</label>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <label for="cmbTipoDocumento">Tipo de Documento:</label>
+                <select id="cmbTipoDocumento" class="form-control"></select>
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <label for="txtDocumento">Documento:</label>
+                <input type="text" class="form-control" id="txtDocumento" required>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="cmbNacionalidad">Nacionalidad:</label>
+                <select id="cmbNacionalidad" class="form-control"></select>
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="txtObservaciones">Observaciones:</label>
+                <textarea id="txtObservaciones" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group col-md-12 text-right">
+                <button class="btn btn-success btn-enlinea"><i class="fas fa-save"></i> Guardar</button>
+                <button class="btn btn-danger btn-enlinea"><i class="fas fa-times"></i> Limpiar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+
+</script>
+</body>
+</html>

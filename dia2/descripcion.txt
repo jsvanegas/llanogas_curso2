@@ -1,0 +1,4 @@
+En este ejercicio trabajaremos la creación de formularios con HTML, usando las características de Bootstrap 4.
+
+El archivo registro.html, cuenta con un formulario básico, con los campos más comunes de HTML. En este archivo se programa una validación de datos, con expresiones regulares, se muestran alertas y toast.
+El archivo consulta.html, muestra en una tabla todos los datos que se van registrando y que queda en el SessionStorage.
