@@ -103,7 +103,7 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/plugins.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="js/sweetalert2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
@@ -161,11 +161,12 @@
             }
         }
         if (mensaje.length > 0){
+
+            console.log('<p>'+mensaje+'</p>');
             swal({
                 title:'Error de validación',
-                text: mensaje,
-                icon: 'warning',
-                html: true
+                html: '<p class="text-left">'+mensaje+'</p>',
+                type: 'warning'
             });
             return;
         }
