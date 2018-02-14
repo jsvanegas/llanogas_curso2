@@ -130,19 +130,15 @@
 
     function validarFormulario(contenedor){
         var requeridos = contenedor.find('*[required]');
-        var r = null;
         var mensaje = '';
-        for (var i = 0; i<requeridos.length; i++){
-            var elemento = requeridos[i];
-            var elementoJQuery = $(elemento);
-            switch (elemento.tagName){
+        for (var i = 0; i < requeridos.length; i++){
+            var elementoJQuery = $(requeridos[i]);
+            switch (elementoJQuery.prop('tagName')){
                 case 'INPUT':
-                    resultado = validarInput(elementoJQuery);
-                    mensaje += !resultado ? 'El campo <b>'+obtenerLabel(elementoJQuery)+'</b> está vacío. <br/>':'';
+                    mensaje += validarInput(elementoJQuery);
                     break;
                 case 'SELECT':
-                    resultado = validarSelect(elementoJQuery);
-                    mensaje += !resultado ? 'Debe seleccionar una opción de '+obtenerLabel(elementoJQuery)+'<br/>':'';
+                    mensaje += validarSelect(elementoJQuery);
                     break;
             }
         }
@@ -150,8 +146,29 @@
             console.error(mensaje);
             return;
         }
-        console.info('Todo OK');
+        guardarInformacion();
         return;
+    }
+    
+    function guardarInformacion() {
+        var usuario = {
+            nombre:$('#txtNombre').val(),
+            apellidos:  $('#txtApellido').val(),
+            correo:  $('#txtCorreo').val(),
+            celular:  $('#txtCelular').val(),
+            telefono:  $('#txtTelefono').val(),
+            //genero:  $('#rbtn-genero').val()  ,
+            tipoDoc:  $('#cmbTipoDocumento').val(),
+            documento:  $('#txtDocumento').val(),
+            nacionalidad:  $('#cmbNacionalidad').val(),
+            observaciones: $('#txtObservaciones').val()
+        };
+        var usuarios = [];
+        if (sessionStorage.getItem('usuarios')){
+            usuarios = JSON.parse( sessionStorage.getItem('usuarios') );
+        }
+        usuarios.push(usuario);
+        sessionStorage.setItem('usuarios', JSON.stringify(usuarios));
     }
 
     function obtenerLabel(elemento) {
@@ -162,19 +179,25 @@
     function validarInput(elemento){
         if (elemento.val().trim().length === 0){
             elemento.addClass('is-invalid').removeClass('is-valid');
-            return false;
+            return 'El campo <b>'+obtenerLabel(elemento)+'</b> está vacío. <br/>';
+        }
+        if (elemento.attr('pattern')!==null){
+            if( ! new RegExp(elemento.attr('pattern')).test(elemento.val()) ){
+                elemento.addClass('is-invalid').removeClass('is-valid');
+                return 'El campo <b>'+obtenerLabel(elemento)+'</b> no cumple. <br/>';
+            }
         }
         elemento.removeClass('is-invalid').addClass('is-valid');
-        return true;
+        return '';
     }
 
     function validarSelect(elemento){
         if (elemento.val() === '-1'){
             elemento.addClass('is-invalid').removeClass('is-valid');
-            return false;
+            return 'Debe seleccionar una opción de '+obtenerLabel(elemento)+'<br/>';
         }
         elemento.removeClass('is-invalid').addClass('is-valid');
-        return true;
+        return '';
     }
 
     function cargarComboTiposDocumento(){
