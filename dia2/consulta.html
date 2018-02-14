@@ -20,12 +20,14 @@
         </div>
 
         <div class="container">
-            <table class="table table-striped">
+            <table id="tblUsuarios" class="table table-striped">
                 <thead>
                     <tr>
                         <th id="thNombre">Nombre</th>
                         <th id="thApellidos">Apellidos</th>
                         <th id="thDocumento">Documento</th>
+                        <th id="thTipoDoc">Tipo Doc.</th>
+                        <th id="thCelular">Celular</th>
                         <th id="thNacionalidad">Nacionalidad</th>
                     </tr>
                 </thead>
@@ -36,9 +38,89 @@
         </div>
     </div>
 
+
+    <script id="template-usuarios" type="text/x-handlebars-template">
+        {{#each usuarios}}
+        <tr>
+            <td headers="thNombre">{{this.nombre}}</td>
+            <td headers="thApellidos">{{this.apellidos}}</td>
+            <td headers="thTipoDoc">{{this.tipoDoc}}</td>
+            <td headers="thDocumento">{{this.documento}}</td>
+
+            {{#if this.celular}}
+            <td headers="thCelular">{{this.celular}}</td>
+            {{else}}
+            <td headers="thCelular">N/A</td>
+            {{/if}}
+
+            <td headers="thNacionalidad">{{this.nacionalidad}}</td>
+        </tr>
+        {{/each}}
+    </script>
+
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/handlebars.min-v4.0.11.js"></script>
     <script>
+
+        var tblUsuarios = $('#tblUsuarios');
+        var tbody = tblUsuarios.find('tbody');
+
+        //Se busca el template y se obtiene el HTML como un String
+        var source   = document.getElementById("template-usuarios").innerHTML;
+        //En caso de querer hacer esto con jQuery
+        //var source = $('#template-usuarios').html();
+
+        //renderFilas, es una función que reemplaza el texto en el template y retorna un string formateado
+        var renderFilas = Handlebars.compile(source);
+
+        function cargarUsuarios(){
+            tbody.empty(); // || tbody.html('');  // cualquiera de las dos formas limpia el contenido
+            var usuarios = sessionStorage.getItem('usuarios'); //String
+            if (usuarios.length === 0){
+                mostrarMensajeSinDatos();
+                return false;
+            }
+
+            usuarios = JSON.parse(usuarios); //Object || Array
+            if (!Array.isArray(usuarios)){  //Valida que el parametro usuarios sea un arreglo
+                mostrarMensajeSinDatos();
+                return false;
+            }
+
+            ///Render de las filas con Handlebars
+            tbody.append( renderFilas({usuarios:usuarios}) );
+
+            /*
+             ///Render de las filas con jQuery
+            for (var i in usuarios){
+                var usuario = usuarios[i];
+                tbody.append( crearFila(usuario) );
+            }
+            */
+
+        }
+
+        function mostrarMensajeSinDatos(){
+            console.log('No hay registros');
+        }
+
+//        function crearFila(usuario){
+//            var tr = $('<tr>');
+//            var tdNombre = $('<td>')
+//                                .attr('headers', 'thNombre')
+//                                .text(usuario.nombre);
+//
+//            var tdApellidos = $('<td>').attr('headers', 'thApellidos').text(usuario.apellidos);
+//            var tdTipoDoc = $('<td>').attr('headers', 'thTipoDoc').text(usuario.tipoDoc);
+//            var tdDocumento = $('<td>').attr('headers', 'thDocumento').text(usuario.documento);
+//            var tdNacionalidad = $('<td>').attr('headers', 'thNacionalidad').text(usuario.nacionalidad);
+//            tr.append(tdNombre, tdApellidos, tdDocumento, tdNacionalidad);
+//            return tr;
+//        }
+
+
+        cargarUsuarios();
 
     </script>
 

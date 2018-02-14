@@ -101,6 +101,7 @@
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/plugins.js"></script>
 
 <script>
 
@@ -123,9 +124,19 @@
     function init(){
         cargarComboTiposDocumento();
         cargarComboPaises();
+
         $('#btnGuardar').on('click', function(){
             validarFormulario( $('#formulario') );
         });
+
+        $('#btnLimpiar').on('click', limpiarFormulario);
+    }
+
+    function limpiarFormulario(){
+        var formulario = $('#formulario');
+        formulario.find('input[type="text"], textarea, input[type="email"]').val('');
+        formulario.find('select').val('-1');
+        formulario.find('input[type="radio"]').prop('checked', false); //Quita la seleccion de radios y checks
     }
 
     function validarFormulario(contenedor){
@@ -201,26 +212,34 @@
     }
 
     function cargarComboTiposDocumento(){
+        /*
         var cmbTipoDocumento = $('#cmbTipoDocumento').empty(); //el metodo empty borra los elementos internos del objeto
         llenarCombo(cmbTipoDocumento, tiposDocumento, 'valor', 'nombre');
+        */
+        $('#cmbTipoDocumento').llenarCombo(tiposDocumento, 'valor', 'nombre');
     }
     
     function cargarComboPaises() {
+        /*
         var cmbNacionalidad = $('#cmbNacionalidad');
         llenarCombo(cmbNacionalidad, paises, 'valor', 'nombre');
+        */
+
+        //Se invoca el plugin de llenarCombo que esta en plugins.js
+        $('#cmbNacionalidad').llenarCombo(paises, 'valor', 'nombre');
     }
 
-    function llenarCombo(combo, datos, valor, texto){
-        combo.empty();
-        combo.append( $('<option>').text('Seleccione una opción').val(-1) );
-        for (var i = 0; i<datos.length; i++){
-            var item = datos[i];
-            var option = $('<option>'); //se crea un objeto option
-            option.val(item[valor]);
-            option.text(item[texto]);
-            combo.append(option);
-        }
-    }
+//    function llenarCombo(combo, datos, valor, texto){
+//        combo.empty();
+//        combo.append( $('<option>').text('Seleccione una opción').val(-1) );
+//        for (var i = 0; i<datos.length; i++){
+//            var item = datos[i];
+//            var option = $('<option>'); //se crea un objeto option
+//            option.val(item[valor]);
+//            option.text(item[texto]);
+//            combo.append(option);
+//        }
+//    }
 
 
     init(); //Se inicia la ejecución del programa
