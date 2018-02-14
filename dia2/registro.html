@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <style>
         .btn-enlinea{
@@ -102,6 +103,8 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/plugins.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
 
@@ -134,6 +137,10 @@
 
     function limpiarFormulario(){
         var formulario = $('#formulario');
+        formulario.find('.is-valid, .is-invalid')
+                            .removeClass('is-invalid')
+                            .removeClass('is-valid');
+
         formulario.find('input[type="text"], textarea, input[type="email"]').val('');
         formulario.find('select').val('-1');
         formulario.find('input[type="radio"]').prop('checked', false); //Quita la seleccion de radios y checks
@@ -154,7 +161,12 @@
             }
         }
         if (mensaje.length > 0){
-            console.error(mensaje);
+            swal({
+                title:'Error de validación',
+                text: mensaje,
+                icon: 'warning',
+                html: true
+            });
             return;
         }
         guardarInformacion();
@@ -180,6 +192,12 @@
         }
         usuarios.push(usuario);
         sessionStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+        //swal("Registro Exitoso", "Se guardó la información correctamente", "success");
+        toastr.success('Se guardó la información correctamente', 'Registro Exitoso');
+        limpiarFormulario();
+        //se puede poner: success | error | info | warning
+
     }
 
     function obtenerLabel(elemento) {
