@@ -83,9 +83,8 @@ function consultarLibros(req, res){
 	            	as: "autor"
 	        	},
 	        },
-	        {
-		    	$sort:{'precio': -1, 'nombre': 1}
-		    }
+	        { "$unwind": "$autor" },
+	        { $sort:{'precio': -1, 'nombre': 1} }
 		], 
 	function(err, cursor) {
         cursor.toArray(function(err, documents) {
@@ -124,6 +123,7 @@ function consultarLibroId(req, res){
 		            as:'autor'
 		        }
 		    },
+	        { "$unwind": "$autor" },
 		    {   $match: { _id : new ObjectId(id) } }
 		], 
 	function(err, cursor) {
@@ -171,6 +171,7 @@ function consultarLibrosPorNombre(req, res){
 		            as:'autor'
 		        }
 		    },
+	        { "$unwind": "$autor" },
 		    {   $sort:{'precio': -1, 'nombre': 1} },
 		    {   $match: { nombre : { $regex: regExpr, $options:'i' } } }
 		],
