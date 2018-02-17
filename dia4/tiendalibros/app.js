@@ -113,11 +113,26 @@ function consultarAutores(req, res){
 
 function consultarLibroId(req, res){
 	var id = new ObjectId(req.params.id);
-	var post = db.collection('libros');
-	post.findOne({_id:id}, function(err, data){
-        if (err) { return validarError(res, err, 'Error al consultar el libro por ID') }
-        res.send({mensaje:'Libro encontrado', codigo:1, data:data});
-	});
+	var libros = db.collection('libros');
+	libros.aggregate(
+		[ 
+	      	{
+		        $lookup:{
+		            from:'autores',
+		            localField:'autor',
+		            foreignField:'_id',
+		            as:'autor'
+		        }
+		    },
+		    {   $match: { _id : new ObjectId(id) } }
+		], 
+	function(err, cursor) {
+        cursor.toArray(function(err, documents) {
+        	if (err) { return validarError(res, err, 'Ocurrió un error al consultar los libros') }
+        	res.send(construirRespuestaDatos(documents, 'Libros encontrados'));
+        });
+      }
+  );
 }
 
 function consultarAutorPorId(req, res){
