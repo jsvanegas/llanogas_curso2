@@ -61,7 +61,8 @@ function registrarLibro(req, res){
 function registrarAutor(req, res){
     var autores = db.collection('autores');
     var nuevoAutor = {
-        nombre: req.body.nombre
+        nombre: 'Oscar Wilde',
+        fechaNacimiento:new Date('01/12/1960')
     };
     autores.insertOne(nuevoAutor, function(err, resultado){
         if (err) { return validarError(res, err, 'Ocurrió un error al registrar el autor') }
@@ -72,14 +73,27 @@ function registrarAutor(req, res){
 
 function consultarLibros(req, res){
 	var libros = db.collection('libros');
-	var opciones = {
-        collation:{locale:'es'},
-		sort:{'precio': -1, 'nombre': 1}
-	};
-	libros.find({}, opciones).toArray(function(err, data){
-        if (err) { return validarError(res, err, 'Ocurrió un error al consultar los libros') }
-        res.send(construirRespuestaDatos(data, 'Libros encontrados'));
-	});
+	libros.aggregate(
+		[ 
+	      	{ 
+	      		'$lookup': { 
+	      			from: "autores",
+	            	localField: "autor",
+	            	foreignField: "_id",
+	            	as: "autor"
+	        	},
+	        },
+	        {
+		    	$sort:{'precio': -1, 'nombre': 1}
+		    }
+		], 
+	function(err, cursor) {
+        cursor.toArray(function(err, documents) {
+        	if (err) { return validarError(res, err, 'Ocurrió un error al consultar los libros') }
+        	res.send(construirRespuestaDatos(documents, 'Libros encontrados'));
+        });
+      }
+  );
 }
 
 
@@ -131,12 +145,27 @@ function consultarLibrosPorNombre(req, res){
     var q = req.params.q;
     console.log(q);
     var regExpr = new RegExp(q, 'i');
-
     var libros = db.collection('libros');
-    libros.find({nombre:regExpr}).toArray(function(err, data){
-        if (err) { return validarError(res, err, 'Error al consultar libros por nombre') }
-        res.send(construirRespuestaDatos(data, 'Libros encontrados por nombre'));
-    });
+	libros.aggregate(
+		[ 
+      	    {
+		        $lookup:{
+		            from:'autores',
+		            localField:'autor',
+		            foreignField:'_id',
+		            as:'autor'
+		        }
+		    },
+		    {   $sort:{'precio': -1, 'nombre': 1} },
+		    {   $match: { nombre : { $regex: regExpr, $options:'i' } } }
+		],
+	function(err, cursor) {
+        cursor.toArray(function(err, documents) {
+        	if (err) { return validarError(res, err, 'Ocurrió un error al consultar los libros') }
+        		res.send(construirRespuestaDatos(documents, 'Libros encontrados'));
+        	});
+      	}
+  	);
 }
 
 function validarError(res, err, mensaje) {
