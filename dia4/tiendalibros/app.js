@@ -129,7 +129,7 @@ function consultarLibroId(req, res){
 	function(err, cursor) {
         cursor.toArray(function(err, documents) {
         	if (err) { return validarError(res, err, 'Ocurrió un error al consultar los libros') }
-        	res.send(construirRespuestaDatos(documents, 'Libros encontrados'));
+        	res.send({mensaje:'Libro encontrado', codigo:1, data:documents[0]});
         });
       }
   );
