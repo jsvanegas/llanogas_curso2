@@ -1,6 +1,5 @@
 var catalogoControl = {
 
-
     consultarTodos:function(success){
 		__app.ajax({
 			ruta:__app.rutas.API.LIBROS.CONSULTAR_TODOS,

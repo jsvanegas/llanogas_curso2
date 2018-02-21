@@ -61,12 +61,12 @@ function registrarLibro(req, res){
 function registrarAutor(req, res){
     var autores = db.collection('autores');
     var nuevoAutor = {
-        nombre: 'Oscar Wilde',
-        fechaNacimiento:new Date('01/12/1960')
+        nombre: req.body.nombre
     };
     autores.insertOne(nuevoAutor, function(err, resultado){
         if (err) { return validarError(res, err, 'Ocurrió un error al registrar el autor') }
-        res.send({mensaje:'Autor registrado exitosamente', codigo: 2});
+        console.log(nuevoAutor);
+        res.send({mensaje:'Autor registrado exitosamente', codigo: 2, data:{res:resultado, autor:nuevoAutor}});
     });
 };
 

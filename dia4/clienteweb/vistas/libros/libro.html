@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tienda de Libros</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/fontawesome-all.min.css">
 
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Catálogo</a>
+                    <a class="nav-link" href="#"><i class="fas fa-home active"></i> Catálogo</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Carrito de Compras</a>
@@ -39,47 +39,25 @@
         </div>
     </nav>
 
-    <h1 class="text-center mt-2 mb-2">Catálogo de Libros</h1>
-
+    <h1 class="text-center mt-2 mb-2">Título Libro</h1>
     <div id="formulario">
-        <div class="row pl-5 pr-5 mt-2 mb-4">
-            <div class="col-md-8">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="txtNombre" placeholder="Buscar..." aria-label="Buscar por nombre" aria-describedby="btnBuscarNombre">
-                    <div class="input-group-append">
-                        <a class="input-group-text btn" href="#" id="btnBuscarNombre"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <select id="cmbAutores" class="form-control" aria-label="Buscar por Autor"></select>
-            </div>
-
-        </div>
-
         <div class="row pl-5 pr-5 mt-2" id="contenedor-catalogo">
-
-
 
         </div>
     </div>
 
 </div>
 
-<script src="js/lib/jquery-3.3.1.min.js"></script>
-<script src="js/lib/bootstrap.min.js"></script>
-<script src="js/lib/handlebars.min-v4.0.11.js"></script>
-<script src="js/app/plugins.js"></script>
-<script src="js/app/app.global.js"></script>
-<script src="js/app/app.rutas.js"></script>
-<script src="js/app/app.dom.js"></script>
-
-<script src="js/vistas/catalogo/catalogo.modelo.js"></script>
-<script src="js/vistas/catalogo/catalogo.control.js"></script>
-<script src="js/vistas/catalogo/catalogo.vista.js"></script>
-
-
+<script src="../../js/lib/jquery-3.3.1.min.js"></script>
+<script src="../../js/lib/bootstrap.min.js"></script>
+<script src="../../js/lib/handlebars.min-v4.0.11.js"></script>
+<script src="../../js/app/plugins.js"></script>
+<script src="../../js/app/app.global.js"></script>
+<script src="../../js/app/app.rutas.js"></script>
+<script src="../../js/app/app.dom.js"></script>
+<script src="../../js/vistas/libro/libro.modelo.js"></script>
+<script src="../../js/vistas/libro/libro.control.js"></script>
+<script src="../../js/vistas/libro/libro.vista.js"></script>
 
 
 </body>

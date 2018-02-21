@@ -19,5 +19,5 @@ Handlebars.registerHelper('elipsis', function (texto, tam) {
     if (texto.length > parseInt(tam)) {
         return texto.substring(0, tam)+'...';
     }
-    return texto;
+    return '<b>'+texto+'</b>';
 });
